@@ -1,64 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema de biblioteca</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body class="bg-light">
-    
     <div class="container py-5">
       <h1 class="text-center mb-4">Gerenciador de Biblioteca</h1>
-      
+
       <div class="row">
-          <div class="col-md-6">
-              <div class="card mb-4">
-                  <div class="card-header">
-                      Adicionar Livro
-                  </div>
-                  <div class="card-body">
-                      <form id="livroForm">
+        <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-header">Adicionar Livro</div>
+            <div class="card-body">
+              <form id="livroForm">
+                <div class="mb-3">
+                  <input id="titulo" class="form-control"  placeholder="Título do livro" />
+                </div>
+                <div class="mb-3">
+                  <input id="autor" class="form-control" placeholder="Nome do Autor" />
+                </div>
 
-                          <div class="mb-3">
-<input id="titulo" placeholder="Título do livro">
-</div>
-<div class="mb-3">
-      <input id="autor" placeholder="Nome do Autor">
-    </div>
+                <div class="mb-3">
+                  <input id="numeroPaginas" class="form-control" placeholder="Número de páginas" />
+                </div>
 
-    <div class="mb-3">
-      <input id="numeroPaginas" placeholder="Número de páginas">
-    </div>
+                <div class="mb-3"></div>
 
-    <div class="mb-3">
-      
-    </div>
-    
-    <button type="submit" class="btn btn-primary">Adicionar Livro</button>
-    
+                <button type="submit" class="btn btn-primary">
+                  Adicionar Livro
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
 
-    </form>
-  </div>
-</div>
-</div>
-        
-<div class="col-md-6">
-  <div class="card">
-      <div class="card-header">
-          Lista de Livros
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Lista de Livros</div>
+            <div class="card-body">
+              <ul id="listaLivros" class="list-group"></ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card-body">
-          <ul id="listaLivros" class="list-group"></ul>
-      </div>
-  </div>
-</div>
-</div>
-</div>
+    </div>
 
-
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="main.js"></script>
   </body>
 </html>
