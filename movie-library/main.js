@@ -1,166 +1,201 @@
-// Define a classe Livro que representa um livro com propriedades e métodos
+
 class Livro {
-  constructor(titulo, autor, numeroPaginas, categorias = []) {
-      this.titulo = titulo;  // Atribui o título do livro
-      this.autor = autor;    // Atribui o autor do livro
-      this.numeroPaginas = numeroPaginas;  // Atribui o número de páginas do livro
-      this.emprestado = false;  // Inicializa o livro como não emprestado
-      this.categorias = categorias || [];  // Atribui as categorias ou um array vazio caso não haja
+  constructor(titulo, autor, numeroPaginas, categorias=[]) {
+      this.titulo = titulo;
+      this.autor = autor;
+      this.numeroPaginas = numeroPaginas;
+      this.emprestado = false;
+      this.categorias=categorias || []; 
   }
 
-  // Método para emprestar o livro
   emprestar() {
-      if (!this.emprestado) {  // Verifica se o livro não está emprestado
-          this.emprestado = true;  // Marca o livro como emprestado
-          return true;  // Retorna verdadeiro, indicando que o livro foi emprestado com sucesso
+      if (!this.emprestado) {
+          this.emprestado = true;
+          return true;
       }
-      return false;  // Retorna falso, se o livro já estava emprestado
+      return false;
   }
 
-  // Método para devolver o livro
   devolver() {
-      if (this.emprestado) {  // Verifica se o livro está emprestado
-          this.emprestado = false;  // Marca o livro como devolvido
-          return true;  // Retorna verdadeiro, indicando que o livro foi devolvido
+      if (this.emprestado) {
+          this.emprestado = false;
+          return true;
       }
-      return false;  // Retorna falso, se o livro não estava emprestado
+      return false;
   }
 
-  // Método para adicionar uma categoria ao livro
-  adicionarCategoria(categoria) {
-    this.categorias.push(categoria);  // Adiciona a categoria ao array de categorias do livro
+  adicionarCategoria(categoria){
+    this.categorias.push(categoria);
   }
 
-  // Método para exibir as categorias do livro
-  exibirCategorias() {
-    return this.categorias.map(categoria => categoria.nome).join(', ');  // Retorna uma string com as categorias separadas por vírgula
-  }
+    exibirCategorias(){
+      return this.categorias.map(categoria=>categoria.nome).join(', ');
+    }
+  
 }
 
-// Define a classe Biblioteca que gerencia uma coleção de livros
 class Biblioteca {
-  static livros = [];  // Cria um array estático de livros
+  static livros = [];
 
-  // Método estático para adicionar um livro à biblioteca
   static adicionarLivro(livro) {
-      this.livros.push(livro);  // Adiciona o livro ao array de livros
+      this.livros.push(livro);
   }
 
-  // Método estático para listar todos os livros na biblioteca
   static listarLivros() {
-      return this.livros;  // Retorna o array de livros
+      return this.livros;
   }
 
-  // Método estático para listar livros por categoria
-  static listarLivrosPorCategoria() {
-    return this.livros.filter(livro => 
-      livro.categorias.some(categoria => categoria.nome === categoriaNome)  // Filtra os livros que possuem uma categoria correspondente
+  static listarLivrosPorCategoria(){
+    return this.livros.filter(livro=> 
+      livro.categorias.some (categoria => categoria.nome === categoriaNome)
     );
   }
 }
 
-// Define a classe Categoria que representa uma categoria de livro
-class Categoria {
-  constructor(nome, descricao) {
-    this.nome = nome;  // Atribui o nome da categoria
-    this.descricao = descricao;  // Atribui a descrição da categoria
-  }
-
-  // Método para exibir a categoria no formato "Nome: Descrição"
-  exibirCategoria() {
-    return `${this.nome}: ${this.descricao}`;  // Retorna uma string com o nome e a descrição da categoria
-  }
+class Categoria{
+constructor(nome){
+  this.nome = nome; 
 }
 
-// Define a classe UI que gerencia a interface do usuário
+exibirCategoria(){
+  return `${this.nome}: ${this.descricao}`
+}
+}
+
+const categoriasDisponiveis = [
+  new Categoria('Aventura'),
+  new Categoria('Infantil'),
+  new Categoria('Ficção científica'),
+  new Categoria('Romance')
+];
+
 class UI {
-  // Método estático que adiciona um livro ao clicar no formulário
   static adicionarLivro(e) {
-    e.preventDefault();  // Previne o envio padrão do formulário (evita recarregamento da página)
+    e.preventDefault();
 
     // Captura os valores dos campos do formulário
-    const titulo = document.getElementById('titulo').value;  // Captura o valor do campo 'titulo'
-    const autor = document.getElementById('autor').value;  // Captura o valor do campo 'autor'
-    const numeroPaginas = document.getElementById('numeroPaginas').value;  // Captura o valor do campo 'numeroPaginas'
+    const titulo = document.getElementById('titulo').value;
+    const autor = document.getElementById('autor').value;
+    const numeroPaginas = document.getElementById('numeroPaginas').value;
 
     // Captura as categorias selecionadas
-    const categorias = [];  // Cria um array vazio para armazenar as categorias
+    const categorias = [];
     document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
-      categorias.push(checkbox.value);  // Adiciona o valor de cada checkbox selecionado ao array de categorias
+      categorias.push(checkbox.value);
     });
 
-    // Criação do objeto Livro com os valores do formulário
+    // Criação do objeto Livro
     const livro = new Livro(titulo, autor, numeroPaginas);
 
-    // Atribui as categorias ao livro
-    livro.categorias = categorias;  // Atribui as categorias capturadas ao livro
+    // Atribuindo as categorias ao livro
+    livro.categorias = categorias;
 
     // Adiciona o livro à biblioteca
     Biblioteca.adicionarLivro(livro);
 
     // Limpa os campos e exibe os livros novamente
-    UI.limparCampos();  // Chama o método para limpar os campos do formulário
-    UI.exibirLivros();  // Chama o método para exibir a lista de livros atualizada
+    UI.limparCampos();
+    UI.exibirLivros();
   }
 
-  // Método para limpar os campos do formulário
   static limparCampos() {
-    document.getElementById('titulo').value = '';  // Limpa o campo 'titulo'
-    document.getElementById('autor').value = '';  // Limpa o campo 'autor'
-    document.getElementById('numeroPaginas').value = '';  // Limpa o campo 'numeroPaginas'
-    
+    document.getElementById('titulo').value = '';
+    document.getElementById('autor').value = '';
+    document.getElementById('numeroPaginas').value = '';
     // Limpa os checkboxes
     document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
-      checkbox.checked = false;  // Desmarca todos os checkboxes
+      checkbox.checked = false;
     });
   }
 
-  // Método para exibir os livros na interface
+
   static exibirLivros() {
-    const listaLivros = document.getElementById('listaLivros');  // Seleciona o elemento de lista onde os livros serão exibidos
+    const listaLivros = document.getElementById('listaLivros');
     listaLivros.innerHTML = '';  // Limpa a lista de livros antes de re-renderizar
 
-    // Para cada livro da biblioteca, cria um item na lista
     Biblioteca.listarLivros().forEach((livro, index) => {
-      const li = document.createElement('li');  // Cria um novo item de lista
-      li.className = 'list-group-item d-flex justify-content-between align-items-center';  // Adiciona classes para estilo com Bootstrap
+      const li = document.createElement('li');
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
       li.innerHTML = `
         <div>
-          <h5 class="mb-1">${livro.titulo}</h5>  <!-- Exibe o título do livro -->
-          <small>${livro.autor}</small>  <!-- Exibe o autor do livro -->
-          <p class="mb-1">${livro.numeroPaginas} páginas</p>  <!-- Exibe o número de páginas -->
-          <p class="mb-1">Categoria(s): ${livro.categorias.join(', ')}</p>  <!-- Exibe as categorias do livro -->
+          <h5 class="mb-1">${livro.titulo}</h5>
+          <small>${livro.autor}</small>
+          <p class="mb-1">${livro.numeroPaginas} páginas</p>
+          <p class="mb-1">Categoria(s): ${livro.categorias.map(categoria => categoria.nome).join(', ')}</p>  <!-- Aqui, pegamos o nome de cada categoria -->
         </div>
         <button class="btn btn-sm ${livro.emprestado ? 'btn-warning' : 'btn-success'}" 
-                id="btn-toggle-${index}">  <!-- Exibe um botão para emprestar ou devolver o livro -->
+                id="btn-toggle-${index}">
           ${livro.emprestado ? 'Devolver' : 'Emprestar'}
         </button>
       `;
-      listaLivros.appendChild(li);  // Adiciona o item à lista de livros
+      listaLivros.appendChild(li);
 
       // Adiciona o evento de clique para cada botão
-      const btn = document.getElementById(`btn-toggle-${index}`);  // Seleciona o botão correspondente ao índice do livro
-      btn.addEventListener('click', () => UI.toggleEmprestimo(index));  // Atribui um evento para alternar o estado de emprestado/devolvido do livro
+      const btn = document.getElementById(`btn-toggle-${index}`);
+      btn.addEventListener('click', () => UI.toggleEmprestimo(index));  // Atribuindo o evento de clique
     });
+}
+
+
+  static adicionarLivro(e) {
+    e.preventDefault();
+
+    // Captura os valores dos campos do formulário
+    const titulo = document.getElementById('titulo').value;
+    const autor = document.getElementById('autor').value;
+    const numeroPaginas = document.getElementById('numeroPaginas').value;
+
+    const categoriasSelecionadas = []; // Variável para armazenar as categorias selecionadas
+
+    // Iterar sobre todos os checkboxes selecionados
+    document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
+        // Procurar a categoria correspondente ao valor do checkbox
+        const categoriaNome = checkbox.value;
+    
+        // Encontrar a categoria correspondente da lista de categorias disponíveis
+        const categoria = categoriasDisponiveis.find(c => c.nome === categoriaNome);
+    
+        // Se a categoria for encontrada, adicionar ao array de categorias selecionadas
+        if (categoria) {
+            categoriasSelecionadas.push(categoria);
+        }
+    });
+
+    // Criação do objeto Livro com as categorias selecionadas
+    const livro = new Livro(titulo, autor, numeroPaginas, categoriasSelecionadas);
+
+    // Adiciona o livro à biblioteca
+    Biblioteca.adicionarLivro(livro);
+
+    // Limpa os campos do formulário e exibe os livros novamente
+    UI.limparCampos();
+    UI.exibirLivros();
+}
+
+
+
+  static toggleEmprestimo(index) {
+      const livros = Biblioteca.listarLivros();
+      const livro = livros[index];
+      
+      if (livro.emprestado) {
+          livro.devolver();
+      } else {
+          livro.emprestar();
+      }
+
+      UI.exibirLivros();  // Atualizar a lista de livros
   }
 
-  // Método para alternar o estado de emprestado do livro (emprestar ou devolver)
-  static toggleEmprestimo(index) {
-    const livros = Biblioteca.listarLivros();  // Obtém todos os livros da biblioteca
-    const livro = livros[index];  // Seleciona o livro baseado no índice
-
-    if (livro.emprestado) {
-        livro.devolver();  // Se o livro estiver emprestado, devolve o livro
-    } else {
-        livro.emprestar();  // Se o livro não estiver emprestado, empresta o livro
-    }
-
-    UI.exibirLivros();  // Atualiza a lista de livros para refletir o novo estado
+  static limparCampos() {
+      document.getElementById('titulo').value = '';
+      document.getElementById('autor').value = '';
+      document.getElementById('numeroPaginas').value = '';
   }
 }
 
-// Atribui o evento de envio do formulário para adicionar o livro
+// Atribui o evento para o formulário
 document.getElementById('livroForm').addEventListener('submit', UI.adicionarLivro);
 
-// Exibe os livros ao carregar a página, para que a lista inicial seja mostrada
+// Exibe os livros ao carregar a página
 UI.exibirLivros();

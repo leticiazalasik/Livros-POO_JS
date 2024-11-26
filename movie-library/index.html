@@ -15,6 +15,25 @@
     <div class="container py-5">
       <h1 class="text-center mb-4">Gerenciador de Biblioteca</h1>
 
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control" placeholder="Digite o nome do país...">
+        </div>
+
+        <!-- Dropdown para seleção de região -->
+        <div class="dropdown mt-3">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="regionDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Selecione uma região
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="regionDropdown">
+              <li><a class="dropdown-item" href="#" data-region="Africa">África</a></li>
+              <li><a class="dropdown-item" href="#" data-region="Americas">Américas</a></li>
+              <li><a class="dropdown-item" href="#" data-region="Asia">Ásia</a></li>
+              <li><a class="dropdown-item" href="#" data-region="Europe">Europa</a></li>
+              <li><a class="dropdown-item" href="#" data-region="Oceania">Oceania</a></li>
+          </ul>
+      </div>
+
       <div class="row">
         <div class="col-md-6">
           <div class="card mb-4">
@@ -35,26 +54,26 @@
                 <div class="mb-3" style="margin-left: 7%;">
 
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="aventura" id="flexCheckAventura">
-                  <label class="form-check-label" for="flexCheckAventura">Aventura</label>
+                  <input class="form-check-input" type="checkbox" value="Aventura" id="categoriaAventura">
+                  <label class="form-check-label" for="fcategoriaAventura">Aventura</label>
                 </div>
 
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="infantil" id="flexCheckInfantil">
-                  <label class="form-check-label" for="flexCheckInfantil">Infantil</label>
+                  <input class="form-check-input" type="checkbox" value="Infantil" id="categoriaInfantil">
+                  <label class="form-check-label" for="categoriaInfantil">Infantil</label>
                   
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="ficcaocientifica" id="flexCheckFiccao">
-                  <label class="form-check-label" for="flexCheckFiccao">Ficção científica</label>
+                  <input class="form-check-input" type="checkbox" value="FiccaoCientifica" id="categoriaFiccaoCientificica">
+                  <label class="form-check-label" for="categoriaFiccaoCientificica">Ficção científica</label>
                 </div>
 
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="terror" id="flexCheckTerror">
-                  <label class="form-check-label" for="flexCheckTerror">Terror</label>
+                  <input class="form-check-input" type="checkbox" value="Terror" id="categoriaTerror">
+                  <label class="form-check-label" for="categoriaTerror">Terror</label>
                 </div>
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="romance" id="flexCheckRomance">
-                  <label class="form-check-label" for="flexCheckRomance">Romance</label>
+                  <input class="form-check-input" type="checkbox" value="Romance" id="categoriaRomance">
+                  <label class="form-check-label" for="categoriaRomance">Romance</label>
                 </div>
 
               </div>
@@ -73,6 +92,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">Lista de Livros</div>
+
             <div class="card-body">
               <ul id="listaLivros" class="list-group"></ul>
             </div>
