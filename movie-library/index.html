@@ -23,19 +23,21 @@
       </div>
       
 
-        <!-- Dropdown para seleção de região -->
-        <div class="dropdown mt-3">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="regionDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Selecione uma região
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="regionDropdown">
-              <li><a class="dropdown-item" href="#" data-region="Africa">África</a></li>
-              <li><a class="dropdown-item" href="#" data-region="Americas">Américas</a></li>
-              <li><a class="dropdown-item" href="#" data-region="Asia">Ásia</a></li>
-              <li><a class="dropdown-item" href="#" data-region="Europe">Europa</a></li>
-              <li><a class="dropdown-item" href="#" data-region="Oceania">Oceania</a></li>
-          </ul>
-      </div>
+       <!-- Dropdown para seleção de categoria -->
+<div class="dropdown mt-3">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="categoriaDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Selecione uma categoria
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="categoriaDropdown">
+    <li><a class="dropdown-item" href="#" data-categoria="Aventura">Aventura</a></li>
+    <li><a class="dropdown-item" href="#" data-categoria="Infantil">Infantil</a></li>
+    <li><a class="dropdown-item" href="#" data-categoria="FiccaoCientifica">Ficção Científica</a></li>
+    <li><a class="dropdown-item" href="#" data-categoria="Terror">Terror</a></li>
+    <li><a class="dropdown-item" href="#" data-categoria="Romance">Romance</a></li>
+  </ul>
+</div>
+
+
 
       <div class="row">
         <div class="col-md-6">
@@ -55,31 +57,32 @@
                 </div>
 
                 <div class="mb-3" style="margin-left: 7%;">
-
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Aventura" id="categoriaAventura">
-                  <label class="form-check-label" for="fcategoriaAventura">Aventura</label>
+                    <input class="form-check-input" type="checkbox" value="Aventura" id="categoriaAventura">
+                    <label class="form-check-label" for="categoriaAventura">Aventura</label> <!-- Corrigido -->
+                  </div>
+                
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Infantil" id="categoriaInfantil">
+                    <label class="form-check-label" for="categoriaInfantil">Infantil</label> <!-- Corrigido -->
+                  </div>
+                
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="FiccaoCientifica" id="categoriaFiccaoCientifica">
+                    <label class="form-check-label" for="categoriaFiccaoCientifica">Ficção científica</label> <!-- Corrigido -->
+                  </div>
+                
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Terror" id="categoriaTerror">
+                    <label class="form-check-label" for="categoriaTerror">Terror</label> <!-- Corrigido -->
+                  </div>
+                
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Romance" id="categoriaRomance">
+                    <label class="form-check-label" for="categoriaRomance">Romance</label> <!-- Corrigido -->
+                  </div>
                 </div>
-
-                  <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Infantil" id="categoriaInfantil">
-                  <label class="form-check-label" for="categoriaInfantil">Infantil</label>
-                  
-                  <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="FiccaoCientifica" id="categoriaFiccaoCientificica">
-                  <label class="form-check-label" for="categoriaFiccaoCientificica">Ficção científica</label>
-                </div>
-
-                  <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Terror" id="categoriaTerror">
-                  <label class="form-check-label" for="categoriaTerror">Terror</label>
-                </div>
-                  <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Romance" id="categoriaRomance">
-                  <label class="form-check-label" for="categoriaRomance">Romance</label>
-                </div>
-
-              </div>
+                
               
 
                 </div>

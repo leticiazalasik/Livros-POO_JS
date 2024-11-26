@@ -1,71 +1,75 @@
-
 class Livro {
-  constructor(titulo, autor, numeroPaginas, categorias=[]) {
-      this.titulo = titulo;
-      this.autor = autor;
-      this.numeroPaginas = numeroPaginas;
-      this.emprestado = false;
-      this.categorias=categorias || []; 
+  constructor(titulo, autor, numeroPaginas, categorias = []) {
+    this.titulo = titulo;
+    this.autor = autor;
+    this.numeroPaginas = numeroPaginas;
+    this.emprestado = false;
+    this.categorias = categorias;
   }
 
   emprestar() {
-      if (!this.emprestado) {
-          this.emprestado = true;
-          return true;
-      }
-      return false;
+    if (!this.emprestado) {
+      this.emprestado = true;
+      return true;
+    }
+    return false;
   }
 
   devolver() {
-      if (this.emprestado) {
-          this.emprestado = false;
-          return true;
-      }
-      return false;
+    if (this.emprestado) {
+      this.emprestado = false;
+      return true;
+    }
+    return false;
   }
 
-  adicionarCategoria(categoria){
+  adicionarCategoria(categoria) {
     this.categorias.push(categoria);
   }
 
-    exibirCategorias(){
-      return this.categorias.map(categoria=>categoria.nome).join(', ');
-    }
-  
+  exibirCategorias() {
+    return this.categorias.map(categoria => categoria.nome).join(', ');
+  }
 }
 
 class Biblioteca {
   static livros = [];
 
   static adicionarLivro(livro) {
-      this.livros.push(livro);
+    this.livros.push(livro);
+    console.log('Livro adicionado:', livro); // Log quando um livro é adicionado
   }
 
   static listarLivros() {
-      return this.livros;
+    console.log('Listando todos os livros:', this.livros); // Log ao listar todos os livros
+    return this.livros;
   }
 
-  static listarLivrosPorCategoria(){
-    return this.livros.filter(livro=> 
-      livro.categorias.some (categoria => categoria.nome === categoriaNome)
+  static listarLivrosPorCategoria(categoriaNome) {
+    console.log('Filtrando livros pela categoria:', categoriaNome); // Log antes do filtro
+    const livrosFiltrados = this.livros.filter(livro =>
+      livro.categorias.some(categoria => categoria.nome === categoriaNome)
     );
+    console.log('Livros filtrados:', livrosFiltrados); // Log após o filtro
+    return livrosFiltrados;
   }
 }
 
-class Categoria{
-constructor(nome){
-  this.nome = nome; 
-}
+class Categoria {
+  constructor(nome) {
+    this.nome = nome;
+  }
 
-exibirCategoria(){
-  return `${this.nome}: ${this.descricao}`
-}
+  exibirCategoria() {
+    return `${this.nome}: ${this.descricao}`;
+  }
 }
 
 const categoriasDisponiveis = [
   new Categoria('Aventura'),
   new Categoria('Infantil'),
-  new Categoria('Ficção científica'),
+  new Categoria('FiccaoCientifica'),
+  new Categoria('Terror'),
   new Categoria('Romance')
 ];
 
@@ -73,27 +77,22 @@ class UI {
   static adicionarLivro(e) {
     e.preventDefault();
 
-    // Captura os valores dos campos do formulário
     const titulo = document.getElementById('titulo').value;
     const autor = document.getElementById('autor').value;
     const numeroPaginas = document.getElementById('numeroPaginas').value;
 
-    // Captura as categorias selecionadas
-    const categorias = [];
+    const categoriasSelecionadas = [];
     document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
-      categorias.push(checkbox.value);
+      const categoriaNome = checkbox.value;
+      const categoria = categoriasDisponiveis.find(c => c.nome === categoriaNome);
+      if (categoria) {
+        categoriasSelecionadas.push(categoria);
+      }
     });
 
-    // Criação do objeto Livro
-    const livro = new Livro(titulo, autor, numeroPaginas);
-
-    // Atribuindo as categorias ao livro
-    livro.categorias = categorias;
-
-    // Adiciona o livro à biblioteca
+    const livro = new Livro(titulo, autor, numeroPaginas, categoriasSelecionadas);
     Biblioteca.adicionarLivro(livro);
 
-    // Limpa os campos e exibe os livros novamente
     UI.limparCampos();
     UI.exibirLivros();
   }
@@ -102,30 +101,48 @@ class UI {
     document.getElementById('titulo').value = '';
     document.getElementById('autor').value = '';
     document.getElementById('numeroPaginas').value = '';
-    // Limpa os checkboxes
     document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
       checkbox.checked = false;
     });
   }
 
   static buscarLivros() {
-    // Obter o termo de pesquisa digitado pelo usuário
     const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
-
-    // Filtrar os livros com base no termo de pesquisa (no título ou autor)
+    console.log('Termo de busca:', searchTerm); // Log do termo de busca
     const livrosFiltrados = Biblioteca.listarLivros().filter(livro => {
-      return livro.titulo.toLowerCase().includes(searchTerm) || 
+      return livro.titulo.toLowerCase().includes(searchTerm) ||
              livro.autor.toLowerCase().includes(searchTerm);
     });
-
-    // Exibir os livros filtrados
+    console.log('Livros encontrados pela busca:', livrosFiltrados); // Log dos livros encontrados
     UI.exibirLivros(livrosFiltrados);
   }
 
+  static buscarPorCategoria(categoriaSelecionada) {
+    console.log(`Buscando livros pela categoria: ${categoriaSelecionada}`);
+    const livrosFiltrados = Biblioteca.listarLivrosPorCategoria(categoriaSelecionada);
+    console.log(`Livros encontrados: ${livrosFiltrados.length}`); // Log da quantidade de livros encontrados
+    UI.exibirLivros(livrosFiltrados);
+  }
+
+  static inicializarEventos() {
+    console.log('Inicializando eventos de dropdown'); // Log ao inicializar eventos
+    document.getElementById('categoriaDropdown').addEventListener('click', function(event) {
+      console.log('Dropdown clicado'); // Log ao clicar no dropdown
+      if (event.target && event.target.matches('a.dropdown-item')) {
+        const categoriaSelecionada = event.target.getAttribute('data-categoria');
+        console.log(`Categoria selecionada: ${categoriaSelecionada}`); // Verificando captura do valor
+        UI.buscarPorCategoria(categoriaSelecionada);
+      } else {
+        console.log('Elemento clicado não corresponde ao item de dropdown'); // Log para caso de falha
+      }
+    });
+  }
+
   static exibirLivros(livros = Biblioteca.listarLivros()) {
+    console.log('Exibindo livros:', livros); // Log dos livros exibidos
     const listaLivros = document.getElementById('listaLivros');
-    listaLivros.innerHTML = '';  // Limpa a lista de livros antes de re-renderizar
-  
+    listaLivros.innerHTML = '';
+
     livros.forEach((livro, index) => {
       const li = document.createElement('li');
       li.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -134,7 +151,7 @@ class UI {
           <h5 class="mb-1">${livro.titulo}</h5>
           <small>${livro.autor}</small>
           <p class="mb-1">${livro.numeroPaginas} páginas</p>
-          <p class="mb-1">Categoria(s): ${livro.categorias.map(categoria => categoria.nome).join(', ')}</p>
+          <p class="mb-1">Categoria(s): ${livro.exibirCategorias()}</p>
         </div>
         <button class="btn btn-sm ${livro.emprestado ? 'btn-warning' : 'btn-success'}" 
                 id="btn-toggle-${index}">
@@ -142,75 +159,27 @@ class UI {
         </button>
       `;
       listaLivros.appendChild(li);
-  
-      // Adiciona o evento de clique para cada botão
+
       const btn = document.getElementById(`btn-toggle-${index}`);
-      btn.addEventListener('click', () => UI.toggleEmprestimo(index));  // Atribuindo o evento de clique
+      btn.addEventListener('click', () => UI.toggleEmprestimo(index));
     });
   }
-  
-
-
-  static adicionarLivro(e) {
-    e.preventDefault();
-
-    // Captura os valores dos campos do formulário
-    const titulo = document.getElementById('titulo').value;
-    const autor = document.getElementById('autor').value;
-    const numeroPaginas = document.getElementById('numeroPaginas').value;
-
-    const categoriasSelecionadas = []; // Variável para armazenar as categorias selecionadas
-
-    // Iterar sobre todos os checkboxes selecionados
-    document.querySelectorAll('.form-check-input:checked').forEach((checkbox) => {
-        // Procurar a categoria correspondente ao valor do checkbox
-        const categoriaNome = checkbox.value;
-    
-        // Encontrar a categoria correspondente da lista de categorias disponíveis
-        const categoria = categoriasDisponiveis.find(c => c.nome === categoriaNome);
-    
-        // Se a categoria for encontrada, adicionar ao array de categorias selecionadas
-        if (categoria) {
-            categoriasSelecionadas.push(categoria);
-        }
-    });
-
-    // Criação do objeto Livro com as categorias selecionadas
-    const livro = new Livro(titulo, autor, numeroPaginas, categoriasSelecionadas);
-
-    // Adiciona o livro à biblioteca
-    Biblioteca.adicionarLivro(livro);
-
-    // Limpa os campos do formulário e exibe os livros novamente
-    UI.limparCampos();
-    UI.exibirLivros();
-}
-
-
 
   static toggleEmprestimo(index) {
-      const livros = Biblioteca.listarLivros();
-      const livro = livros[index];
-      
-      if (livro.emprestado) {
-          livro.devolver();
-      } else {
-          livro.emprestar();
-      }
+    const livros = Biblioteca.listarLivros();
+    const livro = livros[index];
 
-      UI.exibirLivros();  // Atualizar a lista de livros
-  }
+    if (livro.emprestado) {
+      livro.devolver();
+    } else {
+      livro.emprestar();
+    }
 
-  static limparCampos() {
-      document.getElementById('titulo').value = '';
-      document.getElementById('autor').value = '';
-      document.getElementById('numeroPaginas').value = '';
+    UI.exibirLivros();
   }
 }
 
 // Atribui o evento para o formulário
 document.getElementById('livroForm').addEventListener('submit', UI.adicionarLivro);
-
-// Exibe os livros ao carregar a página
+UI.inicializarEventos();
 UI.exibirLivros();
-
