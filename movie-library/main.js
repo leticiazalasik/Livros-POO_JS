@@ -108,12 +108,25 @@ class UI {
     });
   }
 
+  static buscarLivros() {
+    // Obter o termo de pesquisa digitado pelo usuário
+    const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
 
-  static exibirLivros() {
+    // Filtrar os livros com base no termo de pesquisa (no título ou autor)
+    const livrosFiltrados = Biblioteca.listarLivros().filter(livro => {
+      return livro.titulo.toLowerCase().includes(searchTerm) || 
+             livro.autor.toLowerCase().includes(searchTerm);
+    });
+
+    // Exibir os livros filtrados
+    UI.exibirLivros(livrosFiltrados);
+  }
+
+  static exibirLivros(livros = Biblioteca.listarLivros()) {
     const listaLivros = document.getElementById('listaLivros');
     listaLivros.innerHTML = '';  // Limpa a lista de livros antes de re-renderizar
-
-    Biblioteca.listarLivros().forEach((livro, index) => {
+  
+    livros.forEach((livro, index) => {
       const li = document.createElement('li');
       li.className = 'list-group-item d-flex justify-content-between align-items-center';
       li.innerHTML = `
@@ -121,7 +134,7 @@ class UI {
           <h5 class="mb-1">${livro.titulo}</h5>
           <small>${livro.autor}</small>
           <p class="mb-1">${livro.numeroPaginas} páginas</p>
-          <p class="mb-1">Categoria(s): ${livro.categorias.map(categoria => categoria.nome).join(', ')}</p>  <!-- Aqui, pegamos o nome de cada categoria -->
+          <p class="mb-1">Categoria(s): ${livro.categorias.map(categoria => categoria.nome).join(', ')}</p>
         </div>
         <button class="btn btn-sm ${livro.emprestado ? 'btn-warning' : 'btn-success'}" 
                 id="btn-toggle-${index}">
@@ -129,12 +142,13 @@ class UI {
         </button>
       `;
       listaLivros.appendChild(li);
-
+  
       // Adiciona o evento de clique para cada botão
       const btn = document.getElementById(`btn-toggle-${index}`);
       btn.addEventListener('click', () => UI.toggleEmprestimo(index));  // Atribuindo o evento de clique
     });
-}
+  }
+  
 
 
   static adicionarLivro(e) {
@@ -199,3 +213,4 @@ document.getElementById('livroForm').addEventListener('submit', UI.adicionarLivr
 
 // Exibe os livros ao carregar a página
 UI.exibirLivros();
+
